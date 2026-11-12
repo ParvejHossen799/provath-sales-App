@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রভাত এসই সামারি - দৈনিক বিক্রয় হিসাব</title>
+    <style>
+        :root {
+            --mygp-blue: #0077FF;
+            --mygp-cyan: #00C6FF;
+            --navy-dark: #0F172A;
+            --bg-page: #E0F2FE;
+        }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(180deg, #E0F2FE 0%, #F8FAFC 100%);
+            color: #1E293B;
+            padding: 12px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 540px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 119, 255, 0.15);
+            overflow: hidden;
+            border: 1px solid #BAE6FD;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
+            color: #FFFFFF;
+            padding: 18px 15px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .header p {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+        .section {
+            padding: 15px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #0F172A;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #FFFFFF;
+            outline: none;
+        }
+        input:focus, select:focus {
+            border-color: var(--mygp-blue);
+            box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.12);
+        }
+        .product-card {
+            background: linear-gradient(135deg, #0077FF 0%, #00A8FF 100%);
+            padding: 12px;
+            border-radius: 14px;
+            margin: 12px 0;
+            box-shadow: 0 6px 16px rgba(0, 119, 255, 0.2);
+        }
+        .product-card-title {
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFFFF;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th {
+            background: #0F172A;
+            color: #FFFFFF;
+            padding: 7px 8px;
+            font-size: 13px;
+            text-align: left;
+        }
+        th:nth-child(2), td:nth-child(2) {
+            text-align: center;
+            width: 75px;
+        }
+        th:nth-child(3), td:nth-child(3) {
+            text-align: right;
+            width: 90px;
+        }
+        td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+        }
+        tr:nth-child(even) {
+            background-color: #F0F9FF;
+        }
+        .qty-input {
+            width: 62px;
+            text-align: center;
+            padding: 4px;
+            border: 1.5px solid #93C5FD;
+            font-weight: 700;
+            color: #0077FF;
+        }
+        .bank-section {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            border: 1.5px solid #7DD3FC;
+            border-radius: 14px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .bank-header h3 {
+            font-size: 15px;
+            color: #0369A1;
+            font-weight: 700;
+        }
+        .badge {
+            background: #0077FF;
+            color: #FFFFFF;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .bank-row {
+            background: #FFFFFF;
+            border: 1px solid #BAE6FD;
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 34px;
+            gap: 6px;
+            align-items: end;
+        }
+        .btn-remove {
+            background: #FEE2E2;
+            color: #DC2626;
+            border: none;
+            border-radius: 8px;
+            height: 36px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-add-bank {
+            background: #FFFFFF;
+            color: #0077FF;
+            border: 1.5px dashed #0077FF;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .summary-card-bottom {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+            color: #FFFFFF;
+            padding: 14px;
+            border-radius: 14px;
+            margin: 12px 0;
+        }
+        .sum-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        .sum-line.highlight {
+            border-top: 1px dashed rgba(255,255,255,0.3);
+            padding-top: 8px;
+            margin-top: 6px;
+            margin-bottom: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #38BDF8;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 11px 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
+            color: #FFFFFF;
+        }
+        .btn-secondary {
+            background: #E2E8F0;
+            color: #0F172A;
+        }
+        .btn-share {
+            background: #059669;
+            color: #FFFFFF;
+        }
+        #previewBox {
+            border: 2px solid var(--mygp-blue);
+            border-radius: 14px;
+            overflow: hidden;
+            background: #FFFFFF;
+        }
+        .prev-head {
+            background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
+            color: #FFFFFF;
+            padding: 12px;
+            text-align: center;
+        }
+        .prev-se {
+            background: #FACC15;
+            color: #0F172A;
+            text-align: center;
+            padding: 7px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .prev-table th, .prev-table td {
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+        .prev-foot {
+            background: #F8FAFC;
+            padding: 10px 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            border-top: 1px solid #CBD5E1;
+        }
+        .powered-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #64748B;
+            padding: 10px;
+            background: #F1F5F9;
+            border-top: 1px solid #E2E8F0;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .admin-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>প্রভাত এসই সামারি</h1>
+        <p>দৈনিক বিক্রয় ও ব্যাংক জমার হিসাব</p>
+    </div>
+
+    <div id="entryView" class="section">
+        <div class="form-grid">
+            <div>
+                <label>তারিখ</label>
+                <input type="date" id="salesDate">
+            </div>
+            <div>
+                <label>বার</label>
+                <input type="text" id="salesDay">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>এসই-এর নাম</label>
+            <input type="text" id="seName" placeholder="আপনার নাম লিখুন">
+        </div>
+
+        <div class="product-card">
+            <div class="product-card-title">
+                <span>পণ্যের তালিকা (১০টি পণ্য)</span>
+                <span>পরিমাণ দিন</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>পণ্যের নাম</th>
+                        <th>পরিমাণ</th>
+                        <th>টাকা (৳)</th>
+                    </tr>
+                </thead>
+                <tbody id="productBody"></tbody>
+            </table>
+        </div>
+
+        <div class="bank-section">
+            <div class="bank-header">
+                <h3>ব্যাংক জমার বিবরণী</h3>
+                <span class="badge" id="bankCountBadge">মোট ব্যাংক: ১</span>
+            </div>
+            <div id="bankRowsContainer"></div>
+            <button type="button" class="btn-add-bank" onclick="addBankRow()">+ আরও ব্যাংক / অফিস জমা যোগ করুন</button>
+        </div>
+
+        <div class="summary-card-bottom">
+            <div class="sum-line">
+                <span>মোট প্রোডাক্ট বিক্রয় মূল্য:</span>
+                <span id="totalSalesTxt">০.০০ ৳</span>
+            </div>
+            <div class="sum-line">
+                <span>সর্বমোট ব্যাংক ও অফিস জমা:</span>
+                <span id="totalBankTxt">০.০০ ৳</span>
+            </div>
+            <div class="sum-line highlight">
+                <span>হাতে নগদ অবশিষ্ট টাকা:</span>
+                <span id="onHandTxt">০.০০ ৳</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="openPreview()">প্রিভিউ দেখুন</button>
+            <button class="btn btn-secondary" onclick="openAdminAuth()">অ্যাডমিন প্যানেল</button>
+            <button class="btn btn-share" onclick="copySrLink()">এসআর লিংক কপি</button>
+        </div>
+    </div>
+
+    <div id="previewView" class="section hidden">
+        <div id="previewBox">
+            <div class="prev-head">
+                <h2 style="font-size: 19px;">প্রভাত এসই সামারি</h2>
+                <p id="prevDateInfo" style="font-size: 12px;"></p>
+            </div>
+            <div class="prev-se" id="prevSeInfo"></div>
+            <table class="prev-table">
+                <thead>
+                    <tr>
+                        <th>পণ্যের নাম</th>
+                        <th>পরিমাণ</th>
+                        <th>টাকা (৳)</th>
+                    </tr>
+                </thead>
+                <tbody id="prevProductBody"></tbody>
+            </table>
+            <div class="prev-foot" id="prevFooterInfo"></div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="backToEntry()">তথ্য পরিবর্তন করুন</button>
+            <button class="btn btn-primary" onclick="downloadSummaryImage()">ছবি ডাউনলোড করুন</button>
+        </div>
+    </div>
+
+    <div id="adminAuthView" class="section hidden">
+        <h3 style="color: #0077FF; margin-bottom: 8px;">অ্যাডমিন প্যানেল লগইন</h3>
+        <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">পাসওয়ার্ড দিন (ডিফল্ট পাসওয়ার্ড: 1234)</p>
+        <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন" oninput="checkAdminPassAuto()">
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="verifyAdminPass()">প্রবেশ করুন</button>
+            <button class="btn btn-secondary" onclick="backToEntry()">ফিরে যান</button>
+        </div>
+    </div>
+
+    <div id="adminEditorView" class="section hidden">
+        <h3 style="color: #0077FF; margin-bottom: 10px;">পণ্য, দাম ও সেটিংস পরিবর্তন</h3>
+        <div id="adminProductsContainer"></div>
+
+        <div class="form-group" style="margin-top: 12px;">
+            <label>তৈরিকারকের নাম (Powered By)</label>
+            <input type="text" id="poweredByInput" placeholder="যেমন: পারভেজ আহমেদ">
+        </div>
+
+        <div class="form-group">
+            <label>নতুন অ্যাডমিন পাসওয়ার্ড সেট করুন (ঐচ্ছিক)</label>
+            <input type="text" id="newPassInput" placeholder="নতুন পাসওয়ার্ড লিখুন">
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="saveAdminData()">সংরক্ষণ করুন</button>
+            <button class="btn btn-secondary" onclick="backToEntry()">বাতিল করুন</button>
+        </div>
+    </div>
+
+    <div class="powered-footer" id="footerPoweredBy">Powered by: প্রভাত টিম</div>
+</div>
+
+<script>
+    const BANK_OPTIONS = [
+        "ইউসিবি (UCB)",
+        "ডাচ বাংলা (Dutch Bangla)",
+        "এমটিবি (MTB)",
+        "করিম ডিবিবিএল (Korim DBBL)",
+        "পারভেজ ডিবিবিএল (Pervej DBBL)",
+        "ডিএম ডিবিবিএল (DM DBBL)",
+        "অফিস জমা (Office Joma)"
+    ];
+
+    const defaultProducts = Array.from({ length: 10 }, (_, i) => ({
+        name: `পণ্য ${toBn(i + 1)}`,
+        price: 0
+    }));
+
+    let products = JSON.parse(localStorage.getItem('provath_p10')) || defaultProducts;
+    let adminPass = localStorage.getItem('provath_pass') || '1234';
+    let poweredBy = localStorage.getItem('provath_powered') || 'প্রভাত টিম';
+    let bankEntries = [{ bank: BANK_OPTIONS[0], amount: '' }];
+
+    function toBn(n) {
+        const d = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+        return n.toString().replace(/\d/g, x => d[x]);
+    }
+
+    function normalizePass(str) {
+        const bnMap = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
+        return str.trim().replace(/[০-৯]/g, c => bnMap[c]);
+    }
+
+    function loadUrlConfig() {
+        const params = new URLSearchParams(window.location.search);
+        const cfg = params.get('cfg');
+        if (cfg) {
+            try {
+                const parsed = JSON.parse(decodeURIComponent(atob(cfg)));
+                if (parsed.p && parsed.p.length === 10) products = parsed.p;
+                if (parsed.w) poweredBy = parsed.w;
+            } catch (e) {}
+        }
+    }
+
+    function initApp() {
+        loadUrlConfig();
+        const today = new Date();
+        document.getElementById('salesDate').valueAsDate = today;
+        const days = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+        document.getElementById('salesDay').value = days[today.getDay()];
+        document.getElementById('seName').value = localStorage.getItem('provath_se') || '';
+        document.getElementById('footerPoweredBy').innerText = `Powered by: ${poweredBy}`;
+        renderProducts();
+        renderBanks();
+    }
+
+    function renderProducts() {
+        const tbody = document.getElementById('productBody');
+        tbody.innerHTML = '';
+        products.forEach((p, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${p.name} <small style="color:#0077FF;font-weight:600;">(৳${toBn(p.price)})</small></td>
+                <td><input type="number" class="qty-input" min="0" value="0" data-idx="${i}" oninput="recalc()"></td>
+                <td id="amt-${i}" style="font-weight:600;">০.০০</td>
+            `;
+            tbody.appendChild(tr);
+        });
+        recalc();
+    }
+
+    function renderBanks() {
+        const container = document.getElementById('bankRowsContainer');
+        container.innerHTML = '';
+        document.getElementById('bankCountBadge').innerText = `মোট ব্যাংক: ${toBn(bankEntries.length)}`;
+
+        bankEntries.forEach((item, idx) => {
+            const row = document.createElement('div');
+            row.className = 'bank-row';
+            const optionsHtml = BANK_OPTIONS.map(b => `<option value="${b}" ${item.bank === b ? 'selected' : ''}>${b}</option>`).join('');
+            row.innerHTML = `
+                <div>
+                    <label style="font-size:11px;">ব্যাংক / অফিস জমা</label>
+                    <select onchange="updateBank(${idx}, 'bank', this.value)">${optionsHtml}</select>
+                </div>
+                <div>
+                    <label style="font-size:11px;">জমা টাকা</label>
+                    <input type="number" min="0" value="${item.amount}" placeholder="০" oninput="updateBank(${idx}, 'amount', this.value)">
+                </div>
+                <button type="button" class="btn-remove" onclick="removeBank(${idx})" ${bankEntries.length === 1 ? 'disabled style="opacity:0.4"' : ''}>✕</button>
+            `;
+            container.appendChild(row);
+        });
+        recalc();
+    }
+
+    function addBankRow() {
+        bankEntries.push({ bank: BANK_OPTIONS[0], amount: '' });
+        renderBanks();
+    }
+
+    function removeBank(idx) {
+        if (bankEntries.length > 1) {
+            bankEntries.splice(idx, 1);
+            renderBanks();
+        }
+    }
+
+    function updateBank(idx, field, val) {
+        bankEntries[idx][field] = val;
+        recalc();
+    }
+
+    function recalc() {
+        let totalSales = 0;
+        document.querySelectorAll('.qty-input').forEach(inp => {
+            const i = inp.getAttribute('data-idx');
+            const q = parseFloat(inp.value) || 0;
+            const amt = q * (parseFloat(products[i].price) || 0);
+            totalSales += amt;
+            document.getElementById(`amt-${i}`).innerText = toBn(amt.toFixed(2));
+        });
+
+        let totalBank = 0;
+        bankEntries.forEach(b => {
+            totalBank += parseFloat(b.amount) || 0;
+        });
+
+        const onHand = totalSales - totalBank;
+        document.getElementById('totalSalesTxt').innerText = `${toBn(totalSales.toFixed(2))} ৳`;
+        document.getElementById('totalBankTxt').innerText = `${toBn(totalBank.toFixed(2))} ৳`;
+        document.getElementById('onHandTxt').innerText = `${toBn(onHand.toFixed(2))} ৳`;
+    }
+
+    document.getElementById('seName').addEventListener('input', e => {
+        localStorage.setItem('provath_se', e.target.value);
+    });
+
+    function switchView(viewId) {
+        ['entryView', 'previewView', 'adminAuthView', 'adminEditorView'].forEach(id => {
+            document.getElementById(id).classList.add('hidden');
+        });
+        document.getElementById(viewId).classList.remove('hidden');
+    }
+
+    function openPreview() {
+        const dateVal = document.getElementById('salesDate').value;
+        const dayVal = document.getElementById('salesDay').value;
+        const seVal = document.getElementById('seName').value || 'নাম দেওয়া হয়নি';
+
+        document.getElementById('prevDateInfo').innerText = `তারিখ: ${toBn(dateVal)} | বার: ${dayVal}`;
+        document.getElementById('prevSeInfo').innerText = `এসই-এর নাম: ${seVal}`;
+
+        const tbody = document.getElementById('prevProductBody');
+        tbody.innerHTML = '';
+        let totalSales = 0;
+
+        document.querySelectorAll('.qty-input').forEach(inp => {
+            const i = inp.getAttribute('data-idx');
+            const q = parseFloat(inp.value) || 0;
+            const amt = q * (parseFloat(products[i].price) || 0);
+            totalSales += amt;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${products[i].name}</td><td>${toBn(q)}</td><td>${toBn(amt.toFixed(2))}</td>`;
+            tbody.appendChild(tr);
+        });
+
+        let totalBank = 0;
+        let bankLines = '';
+        bankEntries.forEach(b => {
+            const amt = parseFloat(b.amount) || 0;
+            if (amt > 0 || bankEntries.length === 1) {
+                totalBank += amt;
+                bankLines += `<div><strong>${b.bank}:</strong> ${toBn(amt.toFixed(2))} ৳</div>`;
+            }
+        });
+
+        const onHand = totalSales - totalBank;
+        document.getElementById('prevFooterInfo').innerHTML = `
+            <div><strong>মোট বিক্রয় মূল্য:</strong> ${toBn(totalSales.toFixed(2))} ৳</div>
+            ${bankLines}
+            <div><strong>সর্বমোট জমা:</strong> ${toBn(totalBank.toFixed(2))} ৳</div>
+            <div style="color:#0077FF;font-size:16px;font-weight:700;">হাতে নগদ টাকা: ${toBn(onHand.toFixed(2))} ৳</div>
+            <div style="font-size:11px;color:#64748B;margin-top:4px;">Powered by: ${poweredBy}</div>
+        `;
+        switchView('previewView');
+    }
+
+    function backToEntry() {
+        switchView('entryView');
+    }
+
+    function downloadSummaryImage() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const width = 600;
+        const rowH = 34;
+        const bankCount = bankEntries.length;
+        const height = 220 + (10 * rowH) + (bankCount * 28) + 130;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, width, height);
+
+        const grad = ctx.createLinearGradient(0, 0, width, 0);
+        grad.addColorStop(0, '#0077FF');
+        grad.addColorStop(1, '#00C6FF');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, width, 90);
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 28px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('প্রভাত এসই সামারি', width / 2, 42);
+
+        ctx.font = '18px sans-serif';
+        const dateVal = toBn(document.getElementById('salesDate').value);
+        const dayVal = document.getElementById('salesDay').value;
+        ctx.fillText(`তারিখ: ${dateVal}  |  বার: ${dayVal}`, width / 2, 74);
+
+        ctx.fillStyle = '#FACC15';
+        ctx.fillRect(0, 90, width, 44);
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 21px sans-serif';
+        const seVal = document.getElementById('seName').value || 'নাম দেওয়া হয়নি';
+        ctx.fillText(`এসই-এর নাম: ${seVal}`, width / 2, 119);
+
+        let y = 144;
+        ctx.fillStyle = '#0F172A';
+        ctx.fillRect(20, y, width - 40, 36);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 17px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('পণ্যের নাম', 35, y + 24);
+        ctx.textAlign = 'center';
+        ctx.fillText('পরিমাণ', 360, y + 24);
+        ctx.textAlign = 'right';
+        ctx.fillText('টাকা (৳)', width - 35, y + 24);
+
+        y += 36;
+        let totalSales = 0;
+        document.querySelectorAll('.qty-input').forEach((inp, idx) => {
+            const q = parseFloat(inp.value) || 0;
+            const amt = q * (parseFloat(products[idx].price) || 0);
+            totalSales += amt;
+
+            ctx.fillStyle = idx % 2 === 0 ? '#FFFFFF' : '#F0F9FF';
+            ctx.fillRect(20, y, width - 40, rowH);
+            ctx.strokeStyle = '#E2E8F0';
+            ctx.strokeRect(20, y, width - 40, rowH);
+
+            ctx.fillStyle = '#1E293B';
+            ctx.font = '16px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(products[idx].name, 35, y + 23);
+            ctx.textAlign = 'center';
+            ctx.fillText(toBn(q), 360, y + 23);
+            ctx.textAlign = 'right';
+            ctx.fillText(toBn(amt.toFixed(2)), width - 35, y + 23);
+            y += rowH;
+        });
+
+        y += 18;
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 19px sans-serif';
+        ctx.fillText(`মোট বিক্রয় মূল্য: ${toBn(totalSales.toFixed(2))} ৳`, 30, y);
+        y += 30;
+
+        let totalBank = 0;
+        ctx.font = '17px sans-serif';
+        bankEntries.forEach(b => {
+            const amt = parseFloat(b.amount) || 0;
+            totalBank += amt;
+            ctx.fillText(`${b.bank}: ${toBn(amt.toFixed(2))} ৳`, 30, y);
+            y += 26;
+        });
+
+        ctx.font = 'bold 18px sans-serif';
+        ctx.fillText(`সর্বমোট ব্যাংক জমা: ${toBn(totalBank.toFixed(2))} ৳`, 30, y + 4);
+        y += 34;
+
+        ctx.fillStyle = '#0077FF';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.fillText(`হাতে নগদ টাকা: ${toBn((totalSales - totalBank).toFixed(2))} ৳`, 30, y);
+
+        ctx.fillStyle = '#64748B';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Powered by: ${poweredBy}`, width / 2, height - 16);
+
+        const link = document.createElement('a');
+        link.download = `প্রভাত-সামারি-${document.getElementById('salesDate').value}.png`;
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function openAdminAuth() {
+        document.getElementById('adminPassInput').value = '';
+        switchView('adminAuthView');
+    }
+
+    function checkAdminPassAuto() {
+        const val = normalizePass(document.getElementById('adminPassInput').value);
+        if (val === normalizePass(adminPass)) {
+            openAdminEditor();
+        }
+    }
+
+    function verifyAdminPass() {
+        const val = normalizePass(document.getElementById('adminPassInput').value);
+        if (val === normalizePass(adminPass)) {
+            openAdminEditor();
+        } else {
+            alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
+        }
+    }
+
+    function openAdminEditor() {
+        const box = document.getElementById('adminProductsContainer');
+        box.innerHTML = '';
+        products.forEach((p, i) => {
+            const row = document.createElement('div');
+            row.className = 'admin-row';
+            row.innerHTML = `
+                <input type="text" id="edit-pname-${i}" value="${p.name}" placeholder="পণ্যের নাম">
+                <input type="number" id="edit-pprice-${i}" value="${p.price}" placeholder="দাম (৳)" min="0">
+            `;
+            box.appendChild(row);
+        });
+        document.getElementById('poweredByInput').value = poweredBy;
+        document.getElementById('newPassInput').value = '';
+        switchView('adminEditorView');
+    }
+
+    function saveAdminData() {
+        products = products.map((_, i) => ({
+            name: document.getElementById(`edit-pname-${i}`).value || `পণ্য ${toBn(i + 1)}`,
+            price: parseFloat(document.getElementById(`edit-pprice-${i}`).value) || 0
+        }));
+        localStorage.setItem('provath_p10', JSON.stringify(products));
+
+        const pb = document.getElementById('poweredByInput').value.trim();
+        if (pb) {
+            poweredBy = pb;
+            localStorage.setItem('provath_powered', poweredBy);
+            document.getElementById('footerPoweredBy').innerText = `Powered by: ${poweredBy}`;
+        }
+
+        const np = normalizePass(document.getElementById('newPassInput').value);
+        if (np) {
+            adminPass = np;
+            localStorage.setItem('provath_pass', adminPass);
+        }
+
+        renderProducts();
+        backToEntry();
+        alert('সব তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!');
+    }
+
+    function copySrLink() {
+        const payload = btoa(encodeURIComponent(JSON.stringify({ p: products, w: poweredBy })));
+        const url = `${window.location.origin}${window.location.pathname}?cfg=${payload}`;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('এসআর লিংক কপি হয়েছে! এখন হোয়াটসঅ্যাপ বা মেসেঞ্জারে পেস্ট করুন।');
+            });
+        } else {
+            prompt('নিচের লিংকটি কপি করুন:', url);
+        }
+    }
+
+    initApp();
+</script>
+</body>
+</html>
