@@ -13,7 +13,7 @@
         }
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Hind Siliguri', sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 540px;
+            max-width: 560px;
             margin: 0 auto;
             background: #FFFFFF;
             border-radius: 18px;
@@ -78,6 +78,7 @@
             border-color: var(--mygp-blue);
             box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.12);
         }
+        /* প্রোডাক্ট এন্ট্রি কার্ড - MyGP কালার */
         .product-card {
             background: linear-gradient(135deg, #0077FF 0%, #00A8FF 100%);
             padding: 12px;
@@ -103,34 +104,36 @@
         th {
             background: #0F172A;
             color: #FFFFFF;
-            padding: 7px 8px;
+            padding: 7px 6px;
             font-size: 13px;
             text-align: left;
         }
         th:nth-child(2), td:nth-child(2) {
             text-align: center;
-            width: 75px;
+            width: 115px;
         }
         th:nth-child(3), td:nth-child(3) {
             text-align: right;
-            width: 90px;
+            width: 120px;
         }
         td {
-            padding: 6px 8px;
+            padding: 6px 6px;
             border-bottom: 1px solid #E2E8F0;
-            font-size: 14px;
+            font-size: 13.5px;
         }
         tr:nth-child(even) {
             background-color: #F0F9FF;
         }
         .qty-input {
-            width: 62px;
+            width: 105px;
             text-align: center;
-            padding: 4px;
+            padding: 5px 4px;
             border: 1.5px solid #93C5FD;
             font-weight: 700;
+            font-size: 13.5px;
             color: #0077FF;
         }
+        /* ব্যাংক জমার বিবরণী - প্রফেশনাল কালার */
         .bank-section {
             background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
             border: 1.5px solid #7DD3FC;
@@ -164,7 +167,7 @@
             padding: 8px;
             margin-bottom: 8px;
             display: grid;
-            grid-template-columns: 1.4fr 1fr 34px;
+            grid-template-columns: 1.35fr 1fr 34px;
             gap: 6px;
             align-items: end;
         }
@@ -188,6 +191,7 @@
             cursor: pointer;
             width: 100%;
         }
+        /* নিচের মোট হিসাব কার্ড */
         .summary-card-bottom {
             background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
             color: #FFFFFF;
@@ -238,6 +242,7 @@
             background: #059669;
             color: #FFFFFF;
         }
+        /* প্রিভিউ কার্ড */
         #previewBox {
             border: 2px solid var(--mygp-blue);
             border-radius: 14px;
@@ -259,7 +264,7 @@
             font-size: 16px;
         }
         .prev-table th, .prev-table td {
-            padding: 4px 8px;
+            padding: 4px 6px;
             font-size: 13px;
         }
         .prev-foot {
@@ -296,6 +301,7 @@
         <p>দৈনিক বিক্রয় ও ব্যাংক জমার হিসাব</p>
     </div>
 
+    <!-- ১. এন্ট্রি সেকশন -->
     <div id="entryView" class="section">
         <div class="form-grid">
             <div>
@@ -309,13 +315,13 @@
         </div>
 
         <div class="form-group">
-            <label>এসই-এর নাম</label>
+            <label>এসই-এর নাম (SE Name)</label>
             <input type="text" id="seName" placeholder="আপনার নাম লিখুন">
         </div>
 
         <div class="product-card">
             <div class="product-card-title">
-                <span>পণ্যের তালিকা (১০টি পণ্য)</span>
+                <span>পণ্যের তালিকা (১৫টি পণ্য)</span>
                 <span>পরিমাণ দিন</span>
             </div>
             <table>
@@ -330,6 +336,7 @@
             </table>
         </div>
 
+        <!-- একাধিক ব্যাংক জমার বিবরণী -->
         <div class="bank-section">
             <div class="bank-header">
                 <h3>ব্যাংক জমার বিবরণী</h3>
@@ -361,6 +368,7 @@
         </div>
     </div>
 
+    <!-- ২. প্রিভিউ সেকশন -->
     <div id="previewView" class="section hidden">
         <div id="previewBox">
             <div class="prev-head">
@@ -383,26 +391,28 @@
 
         <div class="btn-group">
             <button class="btn btn-secondary" onclick="backToEntry()">তথ্য পরিবর্তন করুন</button>
-            <button class="btn btn-primary" onclick="downloadSummaryImage()">ছবি ডাউনলোড করুন</button>
+            <button class="btn btn-primary" onclick="downloadSummaryImage()">ছবি ডাউনলোড করুন (PNG)</button>
         </div>
     </div>
 
+    <!-- ৩. অ্যাডমিন লগইন -->
     <div id="adminAuthView" class="section hidden">
         <h3 style="color: #0077FF; margin-bottom: 8px;">অ্যাডমিন প্যানেল লগইন</h3>
         <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">পাসওয়ার্ড দিন (ডিফল্ট পাসওয়ার্ড: 1234)</p>
-        <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন" oninput="checkAdminPassAuto()">
+        <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন (1234)" oninput="checkAdminPassAuto()">
         <div class="btn-group">
             <button class="btn btn-primary" onclick="verifyAdminPass()">প্রবেশ করুন</button>
             <button class="btn btn-secondary" onclick="backToEntry()">ফিরে যান</button>
         </div>
     </div>
 
+    <!-- ৪. অ্যাডমিন এডিটর -->
     <div id="adminEditorView" class="section hidden">
-        <h3 style="color: #0077FF; margin-bottom: 10px;">পণ্য, দাম ও সেটিংস পরিবর্তন</h3>
+        <h3 style="color: #0077FF; margin-bottom: 10px;">পণ্য (১৫টি), দাম ও সেটিংস পরিবর্তন</h3>
         <div id="adminProductsContainer"></div>
 
-        <div class="form-group" style="margin-top: 12px;">
-            <label>তৈরিকারকের নাম (Powered By)</label>
+        <div class="form-group" style="margin-top: 10px;">
+            <label>Powered By (তৈরিকারকের নাম পরিবর্তন করুন)</label>
             <input type="text" id="poweredByInput" placeholder="যেমন: পারভেজ আহমেদ">
         </div>
 
@@ -421,6 +431,7 @@
 </div>
 
 <script>
+    const PRODUCT_COUNT = 15;
     const BANK_OPTIONS = [
         "ইউসিবি (UCB)",
         "ডাচ বাংলা (Dutch Bangla)",
@@ -431,12 +442,13 @@
         "অফিস জমা (Office Joma)"
     ];
 
-    const defaultProducts = Array.from({ length: 10 }, (_, i) => ({
+    const defaultProducts = Array.from({ length: PRODUCT_COUNT }, (_, i) => ({
         name: `পণ্য ${toBn(i + 1)}`,
         price: 0
     }));
 
-    let products = JSON.parse(localStorage.getItem('provath_p10')) || defaultProducts;
+    let storedProducts = JSON.parse(localStorage.getItem('provath_p15')) || JSON.parse(localStorage.getItem('provath_p10')) || [];
+    let products = Array.from({ length: PRODUCT_COUNT }, (_, i) => storedProducts[i] || defaultProducts[i]);
     let adminPass = localStorage.getItem('provath_pass') || '1234';
     let poweredBy = localStorage.getItem('provath_powered') || 'প্রভাত টিম';
     let bankEntries = [{ bank: BANK_OPTIONS[0], amount: '' }];
@@ -457,7 +469,9 @@
         if (cfg) {
             try {
                 const parsed = JSON.parse(decodeURIComponent(atob(cfg)));
-                if (parsed.p && parsed.p.length === 10) products = parsed.p;
+                if (Array.isArray(parsed.p)) {
+                    products = Array.from({ length: PRODUCT_COUNT }, (_, i) => parsed.p[i] || defaultProducts[i]);
+                }
                 if (parsed.w) poweredBy = parsed.w;
             } catch (e) {}
         }
@@ -482,8 +496,8 @@
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${p.name} <small style="color:#0077FF;font-weight:600;">(৳${toBn(p.price)})</small></td>
-                <td><input type="number" class="qty-input" min="0" value="0" data-idx="${i}" oninput="recalc()"></td>
-                <td id="amt-${i}" style="font-weight:600;">০.০০</td>
+                <td><input type="number" step="any" class="qty-input" min="0" value="0" data-idx="${i}" oninput="recalc()"></td>
+                <td id="amt-${i}" style="font-weight:600;word-break:break-all;">০.০০</td>
             `;
             tbody.appendChild(tr);
         });
@@ -506,7 +520,7 @@
                 </div>
                 <div>
                     <label style="font-size:11px;">জমা টাকা</label>
-                    <input type="number" min="0" value="${item.amount}" placeholder="০" oninput="updateBank(${idx}, 'amount', this.value)">
+                    <input type="number" step="any" min="0" value="${item.amount}" placeholder="০" oninput="updateBank(${idx}, 'amount', this.value)">
                 </div>
                 <button type="button" class="btn-remove" onclick="removeBank(${idx})" ${bankEntries.length === 1 ? 'disabled style="opacity:0.4"' : ''}>✕</button>
             `;
@@ -611,13 +625,14 @@
         switchView('entryView');
     }
 
+    // নেটিভ ক্যানভাস দিয়ে সরাসরি PNG ছবি ডাউনলোড
     function downloadSummaryImage() {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const width = 600;
+        const width = 640;
         const rowH = 34;
         const bankCount = bankEntries.length;
-        const height = 220 + (10 * rowH) + (bankCount * 28) + 130;
+        const height = 220 + (PRODUCT_COUNT * rowH) + (bankCount * 28) + 130;
 
         canvas.width = width;
         canvas.height = height;
@@ -656,7 +671,7 @@
         ctx.textAlign = 'left';
         ctx.fillText('পণ্যের নাম', 35, y + 24);
         ctx.textAlign = 'center';
-        ctx.fillText('পরিমাণ', 360, y + 24);
+        ctx.fillText('পরিমাণ', 350, y + 24);
         ctx.textAlign = 'right';
         ctx.fillText('টাকা (৳)', width - 35, y + 24);
 
@@ -677,7 +692,7 @@
             ctx.textAlign = 'left';
             ctx.fillText(products[idx].name, 35, y + 23);
             ctx.textAlign = 'center';
-            ctx.fillText(toBn(q), 360, y + 23);
+            ctx.fillText(toBn(q), 350, y + 23);
             ctx.textAlign = 'right';
             ctx.fillText(toBn(amt.toFixed(2)), width - 35, y + 23);
             y += rowH;
@@ -749,7 +764,7 @@
             row.className = 'admin-row';
             row.innerHTML = `
                 <input type="text" id="edit-pname-${i}" value="${p.name}" placeholder="পণ্যের নাম">
-                <input type="number" id="edit-pprice-${i}" value="${p.price}" placeholder="দাম (৳)" min="0">
+                <input type="number" step="any" id="edit-pprice-${i}" value="${p.price}" placeholder="দাম (৳)" min="0">
             `;
             box.appendChild(row);
         });
@@ -763,7 +778,7 @@
             name: document.getElementById(`edit-pname-${i}`).value || `পণ্য ${toBn(i + 1)}`,
             price: parseFloat(document.getElementById(`edit-pprice-${i}`).value) || 0
         }));
-        localStorage.setItem('provath_p10', JSON.stringify(products));
+        localStorage.setItem('provath_p15', JSON.stringify(products));
 
         const pb = document.getElementById('poweredByInput').value.trim();
         if (pb) {
