@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রভাত এসই সামারি - দৈনিক বিক্রয় হিসাব</title>
+    <title>প্রভাত এসই সামারি - দৈনিক ও মাসিক বিক্রয় হিসাব</title>
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
             --mygp-blue: #0077FF;
             --mygp-cyan: #00C6FF;
-            --navy-dark: #0F172A;
-            --bg-page: #E0F2FE;
+            --deep-navy: #091E42;
+            --royal-blue: #0052CC;
         }
         * {
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', system-ui, -apple-system, sans-serif;
+            font-family: 'Hind Siliguri', sans-serif;
             margin: 0;
             padding: 0;
         }
         body {
-            background: linear-gradient(180deg, #E0F2FE 0%, #F8FAFC 100%);
-            color: #1E293B;
-            padding: 12px;
+            background: linear-gradient(180deg, #E0F2FE 0%, #F1F5F9 100%);
+            color: #0F172A;
+            padding: 10px;
             min-height: 100vh;
         }
         .container {
@@ -28,26 +29,54 @@
             margin: 0 auto;
             background: #FFFFFF;
             border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0, 119, 255, 0.15);
+            box-shadow: 0 12px 32px rgba(9, 30, 66, 0.16);
             overflow: hidden;
             border: 1px solid #BAE6FD;
         }
         .header {
             background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
             color: #FFFFFF;
-            padding: 18px 15px;
-            text-align: center;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .header h1 {
-            font-size: 23px;
-            font-weight: 800;
+        .header-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
         }
-        .header p {
-            font-size: 13px;
+        .header-title p {
+            font-size: 12px;
             opacity: 0.95;
         }
+        .header-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .top-btn {
+            background: rgba(255, 255, 255, 0.22);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .mini-avatar {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #FACC15;
+        }
         .section {
-            padding: 15px;
+            padding: 14px;
         }
         .form-grid {
             display: grid;
@@ -79,7 +108,47 @@
             border-color: var(--mygp-blue);
             box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.12);
         }
-        /* বাদ দেওয়া / অতিরিক্ত পণ্য যোগ করার বক্স */
+        input[readonly] {
+            background: #F1F5F9;
+            color: #334155;
+            cursor: not-allowed;
+        }
+        .profile-alert-banner {
+            background: #FEF2F2;
+            border: 1.5px solid #FCA5A5;
+            color: #991B1B;
+            padding: 10px 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .profile-alert-banner button {
+            background: #DC2626;
+            color: #FFFFFF;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .locked-badge {
+            display: inline-block;
+            background: #DCFCE7;
+            color: #166534;
+            border: 1px solid #86EFAC;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
         .restore-box {
             background: #FEF9C3;
             border: 1.5px solid #FACC15;
@@ -87,57 +156,37 @@
             padding: 10px;
             margin-bottom: 10px;
         }
-        .restore-box-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: #854D0E;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .restore-controls {
+        .restore-row {
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 6px;
+            gap: 8px;
+            margin-top: 5px;
         }
-        .btn-restore-one {
-            background: #059669;
-            color: #FFFFFF;
+        .btn-restore {
+            background: #0F172A;
+            color: #FACC15;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 8px 12px;
-            font-size: 13px;
             font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
             white-space: nowrap;
         }
-        .btn-restore-all {
-            background: #FFFFFF;
-            color: #854D0E;
-            border: 1px solid #EAB308;
-            border-radius: 6px;
-            padding: 3px 8px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        /* প্রোডাক্ট এন্ট্রি কার্ড - MyGP কালার */
         .product-card {
             background: linear-gradient(135deg, #0077FF 0%, #00A8FF 100%);
-            padding: 12px;
+            padding: 10px;
             border-radius: 14px;
-            margin: 12px 0;
+            margin: 10px 0;
             box-shadow: 0 6px 16px rgba(0, 119, 255, 0.2);
         }
         .product-card-title {
             color: #FFFFFF;
-            font-weight: 800;
-            font-size: 15px;
+            font-weight: 700;
+            font-size: 14px;
             margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
         table {
             width: 100%;
@@ -145,74 +194,55 @@
             background: #FFFFFF;
             border-radius: 10px;
             overflow: hidden;
-            table-layout: fixed;
         }
         th {
-            background: #0F172A;
+            background: #091E42;
             color: #FFFFFF;
-            padding: 8px 6px;
+            padding: 7px 6px;
             font-size: 13px;
-            font-weight: 800;
+            font-weight: 700;
             text-align: left;
-        }
-        th:nth-child(1), td:nth-child(1) {
-            width: 38%;
-            word-wrap: break-word;
         }
         th:nth-child(2), td:nth-child(2) {
             text-align: center;
-            width: 26%;
+            width: 112px;
         }
         th:nth-child(3), td:nth-child(3) {
             text-align: right;
-            width: 27%;
-            word-break: break-all;
+            width: 108px;
         }
         th:nth-child(4), td:nth-child(4) {
             text-align: center;
-            width: 9%;
+            width: 34px;
         }
         td {
-            padding: 6px 5px;
+            padding: 6px;
             border-bottom: 1px solid #E2E8F0;
             font-size: 14px;
             font-weight: 700;
-            color: #0F172A;
         }
         tr:nth-child(even) {
             background-color: #F0F9FF;
         }
         .qty-input {
-            width: 100%;
-            min-width: 78px;
+            width: 102px;
             text-align: center;
             padding: 5px 4px;
             border: 1.5px solid #93C5FD;
-            border-radius: 8px;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 14px;
-            color: #0077FF;
+            color: #0052CC;
         }
-        .amt-cell {
-            font-weight: 800;
-            color: #0F172A;
-            font-size: 14px;
-        }
-        .btn-del-prod {
+        .btn-del-row {
             background: #FEE2E2;
             color: #DC2626;
-            border: 1px solid #FCA5A5;
+            border: none;
             border-radius: 6px;
             width: 26px;
-            height: 26px;
-            font-size: 13px;
-            font-weight: 800;
+            height: 28px;
+            font-weight: 700;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
-        /* ব্যাংক জমার বিবরণী */
         .bank-section {
             background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
             border: 1.5px solid #7DD3FC;
@@ -224,29 +254,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .bank-header h3 {
             font-size: 15px;
             color: #0369A1;
-            font-weight: 800;
+            font-weight: 700;
         }
         .badge {
-            background: #0077FF;
+            background: #0052CC;
             color: #FFFFFF;
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
         }
-        .bank-row {
+        .bank-card-item {
             background: #FFFFFF;
             border: 1px solid #BAE6FD;
             border-radius: 10px;
             padding: 8px;
             margin-bottom: 8px;
+        }
+        .bank-row {
             display: grid;
-            grid-template-columns: 1.3fr 1fr 34px;
+            grid-template-columns: 1.35fr 1fr 32px;
             gap: 6px;
             align-items: end;
         }
@@ -256,23 +288,22 @@
             border: none;
             border-radius: 8px;
             height: 36px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
         }
         .btn-add-bank {
             background: #FFFFFF;
-            color: #0077FF;
-            border: 1.5px dashed #0077FF;
+            color: #0052CC;
+            border: 1.5px dashed #0052CC;
             padding: 8px 14px;
             border-radius: 10px;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 13px;
             cursor: pointer;
             width: 100%;
         }
-        /* নিচের মোট হিসাব কার্ড */
         .summary-card-bottom {
-            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+            background: linear-gradient(135deg, #091E42 0%, #0052CC 100%);
             color: #FFFFFF;
             padding: 14px;
             border-radius: 14px;
@@ -282,17 +313,17 @@
             display: flex;
             justify-content: space-between;
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 6px;
         }
         .sum-line.highlight {
-            border-top: 1px dashed rgba(255,255,255,0.3);
+            border-top: 1px dashed rgba(255,255,255,0.35);
             padding-top: 8px;
             margin-top: 6px;
             margin-bottom: 0;
             font-size: 18px;
-            font-weight: 800;
-            color: #38BDF8;
+            font-weight: 700;
+            color: #FACC15;
         }
         .btn-group {
             display: flex;
@@ -307,817 +338,11 @@
             border: none;
             border-radius: 10px;
             font-size: 14px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
         }
         .btn-primary {
-            background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
+            background: linear-gradient(135deg, #091E42, #0052CC);
             color: #FFFFFF;
         }
         .btn-secondary {
-            background: #E2E8F0;
-            color: #0F172A;
-        }
-        .btn-share {
-            background: #059669;
-            color: #FFFFFF;
-        }
-        /* প্রিভিউ কার্ড */
-        #previewBox {
-            border: 2px solid var(--mygp-blue);
-            border-radius: 14px;
-            overflow: hidden;
-            background: #FFFFFF;
-        }
-        .prev-head {
-            background: linear-gradient(135deg, var(--mygp-blue), var(--mygp-cyan));
-            color: #FFFFFF;
-            padding: 12px;
-            text-align: center;
-        }
-        .prev-se {
-            background: #FACC15;
-            color: #0F172A;
-            text-align: center;
-            padding: 8px;
-            font-weight: 800;
-            font-size: 16px;
-        }
-        .prev-table th:nth-child(1), .prev-table td:nth-child(1) { width: 42%; text-align: left; }
-        .prev-table th:nth-child(2), .prev-table td:nth-child(2) { width: 28%; text-align: center; }
-        .prev-table th:nth-child(3), .prev-table td:nth-child(3) { width: 30%; text-align: right; }
-        .prev-table th, .prev-table td {
-            padding: 5px 8px;
-            font-size: 13px;
-            font-weight: 800;
-        }
-        .prev-foot {
-            background: #F8FAFC;
-            padding: 10px 12px;
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 1.6;
-            border-top: 1px solid #CBD5E1;
-        }
-        .powered-footer {
-            text-align: center;
-            font-size: 12px;
-            font-weight: 700;
-            color: #64748B;
-            padding: 10px;
-            background: #F1F5F9;
-            border-top: 1px solid #E2E8F0;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .admin-row {
-            display: grid;
-            grid-template-columns: 1.8fr 1fr 34px;
-            gap: 6px;
-            margin-bottom: 6px;
-            align-items: center;
-        }
-        .btn-add-prod {
-            background: #E0F2FE;
-            color: #0077FF;
-            border: 1.5px dashed #0077FF;
-            padding: 8px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 13px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 6px;
-        }
-        /* নিশ্চিতকরণ মডাল (হ্যাঁ / না) */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.65);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 15px;
-        }
-        .modal-box {
-            background: #FFFFFF;
-            border-radius: 16px;
-            padding: 20px;
-            max-width: 340px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-            border: 2px solid #0077FF;
-        }
-        .modal-box h4 {
-            font-size: 18px;
-            font-weight: 800;
-            color: #0F172A;
-            margin-bottom: 6px;
-        }
-        .modal-box p {
-            font-size: 14px;
-            font-weight: 700;
-            color: #475569;
-            margin-bottom: 16px;
-        }
-        .modal-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .btn-yes {
-            background: #DC2626;
-            color: #FFFFFF;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-        .btn-no {
-            background: #E2E8F0;
-            color: #0F172A;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">
-        <h1>প্রভাত এসই সামারি</h1>
-        <p>দৈনিক বিক্রয় ও ব্যাংক জমার হিসাব</p>
-    </div>
-
-    <!-- ১. এন্ট্রি সেকশন -->
-    <div id="entryView" class="section">
-        <div class="form-grid">
-            <div>
-                <label>তারিখ</label>
-                <input type="date" id="salesDate">
-            </div>
-            <div>
-                <label>বার</label>
-                <input type="text" id="salesDay">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>এসই-এর নাম (SE Name)</label>
-            <input type="text" id="seName" placeholder="আপনার নাম লিখুন">
-        </div>
-
-        <!-- কাঙ্ক্ষিত পণ্য যোগ করার বক্স -->
-        <div id="restoreBox" class="restore-box hidden">
-            <div class="restore-box-title">
-                <span id="hiddenCountLabel">অতিরিক্ত / বাদ দেওয়া পণ্য যোগ করুন:</span>
-                <button type="button" class="btn-restore-all" onclick="resetToDefaultSeven()">প্রাথমিক ৭টি ফিরিয়ে আনুন</button>
-            </div>
-            <div class="restore-controls">
-                <select id="hiddenProductSelect"></select>
-                <button type="button" class="btn-restore-one" onclick="restoreSelectedProduct()">+ পণ্য যোগ করুন</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-card-title">
-                <span id="prodListTitle">পণ্যের তালিকা (৭টি পণ্য)</span>
-                <span>পরিমাণ দিন</span>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>পণ্যের নাম</th>
-                        <th>পরিমাণ</th>
-                        <th>টাকা (৳)</th>
-                        <th>বাদ</th>
-                    </tr>
-                </thead>
-                <tbody id="productBody"></tbody>
-            </table>
-        </div>
-
-        <!-- একাধিক ব্যাংক জমার বিবরণী -->
-        <div class="bank-section">
-            <div class="bank-header">
-                <h3>ব্যাংক জমার বিবরণী</h3>
-                <span class="badge" id="bankCountBadge">মোট ব্যাংক: ১</span>
-            </div>
-            <div id="bankRowsContainer"></div>
-            <button type="button" class="btn-add-bank" onclick="addBankRow()">+ আরও ব্যাংক / অফিস জমা যোগ করুন</button>
-        </div>
-
-        <div class="summary-card-bottom">
-            <div class="sum-line">
-                <span>মোট প্রোডাক্ট বিক্রয় মূল্য:</span>
-                <span id="totalSalesTxt">০.০০ ৳</span>
-            </div>
-            <div class="sum-line">
-                <span>সর্বমোট ব্যাংক ও অফিস জমা:</span>
-                <span id="totalBankTxt">০.০০ ৳</span>
-            </div>
-            <div class="sum-line highlight">
-                <span>হাতে নগদ অবশিষ্ট টাকা:</span>
-                <span id="onHandTxt">০.০০ ৳</span>
-            </div>
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-primary" onclick="openPreview()">প্রিভিউ দেখুন</button>
-            <button class="btn btn-secondary" onclick="openAdminAuth()">অ্যাডমিন প্যানেল</button>
-            <button class="btn btn-share" onclick="copySrLink()">এসআর লিংক কপি</button>
-        </div>
-    </div>
-
-    <!-- ২. প্রিভিউ এবং ডাউনলোড সেকশন -->
-    <div id="previewView" class="section hidden">
-        <div id="previewBox">
-            <div class="prev-head">
-                <h2 style="font-size: 19px; font-weight: 800;">প্রভাত এসই সামারি</h2>
-                <p id="prevDateInfo" style="font-size: 12px; font-weight: 700;"></p>
-            </div>
-            <div class="prev-se" id="prevSeInfo"></div>
-            <table class="prev-table">
-                <thead>
-                    <tr>
-                        <th>পণ্যের নাম</th>
-                        <th>পরিমাণ</th>
-                        <th>টাকা (৳)</th>
-                    </tr>
-                </thead>
-                <tbody id="prevProductBody"></tbody>
-            </table>
-            <div class="prev-foot" id="prevFooterInfo"></div>
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-secondary" onclick="backToEntry()">তথ্য পরিবর্তন করুন</button>
-            <button class="btn btn-primary" onclick="downloadSummaryImage()">ছবি ডাউনলোড করুন (HD PNG)</button>
-        </div>
-    </div>
-
-    <!-- ৩. অ্যাডমিন পাসওয়ার্ড যাচাই -->
-    <div id="adminAuthView" class="section hidden">
-        <h3 style="color: #0077FF; margin-bottom: 8px; font-weight: 800;">অ্যাডমিন প্যানেল লগইন</h3>
-        <p style="font-size: 13px; color: #475569; margin-bottom: 10px; font-weight: 700;">পাসওয়ার্ড দিন (ডিফল্ট পাসওয়ার্ড: 1234)</p>
-        <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন (1234)" oninput="checkAdminPassAuto()">
-        <div class="btn-group">
-            <button class="btn btn-primary" onclick="verifyAdminPass()">প্রবেশ করুন</button>
-            <button class="btn btn-secondary" onclick="backToEntry()">ফিরে যান</button>
-        </div>
-    </div>
-
-    <!-- ৪. অ্যাডমিন এডিটর -->
-    <div id="adminEditorView" class="section hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 style="color: #0077FF; font-weight: 800;">পণ্য, দাম ও সেটিংস পরিবর্তন</h3>
-            <span class="badge" id="adminCountBadge">মোট পণ্য: ১৫</span>
-        </div>
-        <div id="adminProductsContainer"></div>
-        <button type="button" class="btn-add-prod" onclick="addAdminProductRow()">+ নতুন পণ্য যোগ করুন</button>
-
-        <div class="form-group" style="margin-top: 12px;">
-            <label>Powered By (তৈরিকারকের নাম পরিবর্তন করুন)</label>
-            <input type="text" id="poweredByInput" placeholder="যেমন: পারভেজ আহমেদ">
-        </div>
-
-        <div class="form-group">
-            <label>নতুন অ্যাডমিন পাসওয়ার্ড সেট করুন (ঐচ্ছিক)</label>
-            <input type="text" id="newPassInput" placeholder="নতুন পাসওয়ার্ড লিখুন">
-        </div>
-
-        <div class="btn-group">
-            <button class="btn btn-primary" onclick="saveAdminData()">সংরক্ষণ করুন</button>
-            <button class="btn btn-secondary" onclick="backToEntry()">বাতিল করুন</button>
-        </div>
-    </div>
-
-    <div class="powered-footer" id="footerPoweredBy">Powered by: প্রভাত টিম</div>
-</div>
-
-<!-- পণ্য বাদ দেওয়ার নিশ্চিতকরণ মডাল (হ্যাঁ / না) -->
-<div id="confirmModal" class="modal-overlay hidden">
-    <div class="modal-box">
-        <h4>আপনি কি পণ্যটি বাদ দিতে চান?</h4>
-        <p id="confirmProductName"></p>
-        <div class="modal-btns">
-            <button type="button" class="btn-yes" onclick="confirmDeleteYes()">হ্যাঁ</button>
-            <button type="button" class="btn-no" onclick="confirmDeleteNo()">না</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    const BANK_OPTIONS = [
-        "ইউসিবি (UCB)",
-        "ডাচ বাংলা (Dutch Bangla)",
-        "এমটিবি (MTB)",
-        "করিম ডিবিবিএল (Korim DBBL)",
-        "পারভেজ ডিবিবিএল (Pervej DBBL)",
-        "ডিএম ডিবিবিএল (DM DBBL)",
-        "অফিস জমা (Office Joma)"
-    ];
-
-    const defaultProducts = Array.from({ length: 15 }, (_, i) => ({
-        name: `পণ্য ${toBn(i + 1)}`,
-        price: 0
-    }));
-
-    let products = JSON.parse(localStorage.getItem('provath_plist_v2')) || defaultProducts;
-    let adminPass = localStorage.getItem('provath_pass') || '1234';
-    let poweredBy = localStorage.getItem('provath_powered') || 'প্রভাত টিম';
-    let bankEntries = [{ bank: BANK_OPTIONS[0], amount: '' }];
-    let activeIndices = [];
-    let qtyValues = {};
-    let pendingDeleteIdx = null;
-
-    function toBn(n) {
-        const d = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
-        return n.toString().replace(/\d/g, x => d[x]);
-    }
-
-    function normalizePass(str) {
-        const bnMap = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
-        return str.trim().replace(/[০-৯]/g, c => bnMap[c]);
-    }
-
-    function loadUrlConfig() {
-        const params = new URLSearchParams(window.location.search);
-        const cfg = params.get('cfg');
-        if (cfg) {
-            try {
-                const parsed = JSON.parse(decodeURIComponent(atob(cfg)));
-                if (Array.isArray(parsed.p) && parsed.p.length > 0) products = parsed.p;
-                if (parsed.w) poweredBy = parsed.w;
-            } catch (e) {}
-        }
-    }
-
-    function setInitialSeven() {
-        const initialCount = Math.min(7, products.length);
-        activeIndices = Array.from({ length: initialCount }, (_, i) => i);
-    }
-
-    function initApp() {
-        loadUrlConfig();
-        setInitialSeven();
-        const today = new Date();
-        document.getElementById('salesDate').valueAsDate = today;
-        const days = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
-        document.getElementById('salesDay').value = days[today.getDay()];
-        document.getElementById('seName').value = localStorage.getItem('provath_se') || '';
-        document.getElementById('footerPoweredBy').innerText = `Powered by: ${poweredBy}`;
-        renderProducts();
-        renderBanks();
-    }
-
-    function renderRestoreDropdown() {
-        const hiddenIndices = products.map((_, idx) => idx).filter(idx => !activeIndices.includes(idx));
-        const box = document.getElementById('restoreBox');
-        const sel = document.getElementById('hiddenProductSelect');
-
-        if (hiddenIndices.length === 0) {
-            box.classList.add('hidden');
-            return;
-        }
-
-        box.classList.remove('hidden');
-        document.getElementById('hiddenCountLabel').innerText = `আরও পণ্য যোগ করুন (${toBn(hiddenIndices.length)}টি বাকি):`;
-        sel.innerHTML = hiddenIndices.map(idx => {
-            const p = products[idx];
-            return `<option value="${idx}">${p.name} (৳${toBn(p.price)})</option>`;
-        }).join('');
-    }
-
-    function restoreSelectedProduct() {
-        const sel = document.getElementById('hiddenProductSelect');
-        const idx = parseInt(sel.value, 10);
-        if (!isNaN(idx) && !activeIndices.includes(idx)) {
-            activeIndices.push(idx);
-            activeIndices.sort((a, b) => a - b);
-            renderProducts();
-        }
-    }
-
-    function resetToDefaultSeven() {
-        setInitialSeven();
-        renderProducts();
-    }
-
-    function askRemoveProduct(idx) {
-        if (activeIndices.length <= 1) {
-            alert('তালিকায় অন্তত ১টি পণ্য রাখতে হবে।');
-            return;
-        }
-        pendingDeleteIdx = idx;
-        document.getElementById('confirmProductName').innerText = `"${products[idx].name}"`;
-        document.getElementById('confirmModal').classList.remove('hidden');
-    }
-
-    function confirmDeleteYes() {
-        if (pendingDeleteIdx !== null) {
-            delete qtyValues[pendingDeleteIdx];
-            activeIndices = activeIndices.filter(i => i !== pendingDeleteIdx);
-            pendingDeleteIdx = null;
-            document.getElementById('confirmModal').classList.add('hidden');
-            renderProducts();
-        }
-    }
-
-    function confirmDeleteNo() {
-        pendingDeleteIdx = null;
-        document.getElementById('confirmModal').classList.add('hidden');
-    }
-
-    function renderProducts() {
-        const tbody = document.getElementById('productBody');
-        tbody.innerHTML = '';
-        document.getElementById('prodListTitle').innerText = `পণ্যের তালিকা (${toBn(activeIndices.length)}টি পণ্য)`;
-
-        activeIndices.forEach(i => {
-            const p = products[i];
-            const savedVal = qtyValues[i] !== undefined ? qtyValues[i] : '';
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${p.name}</strong> <small style="color:#0077FF;font-weight:700;">(৳${toBn(p.price)})</small></td>
-                <td><input type="number" step="any" class="qty-input" min="0" value="${savedVal}" placeholder="0" data-idx="${i}" oninput="onQtyChange(${i}, this.value)"></td>
-                <td id="amt-${i}" class="amt-cell">০.০০</td>
-                <td><button type="button" class="btn-del-prod" title="পণ্য বাদ দিন" onclick="askRemoveProduct(${i})">✕</button></td>
-            `;
-            tbody.appendChild(tr);
-        });
-        renderRestoreDropdown();
-        recalc();
-    }
-
-    function onQtyChange(idx, val) {
-        qtyValues[idx] = val;
-        recalc();
-    }
-
-    function renderBanks() {
-        const container = document.getElementById('bankRowsContainer');
-        container.innerHTML = '';
-        document.getElementById('bankCountBadge').innerText = `মোট ব্যাংক: ${toBn(bankEntries.length)}`;
-
-        bankEntries.forEach((item, idx) => {
-            const row = document.createElement('div');
-            row.className = 'bank-row';
-            const optionsHtml = BANK_OPTIONS.map(b => `<option value="${b}" ${item.bank === b ? 'selected' : ''}>${b}</option>`).join('');
-            row.innerHTML = `
-                <div>
-                    <label style="font-size:11px;">ব্যাংক / অফিস জমা</label>
-                    <select onchange="updateBank(${idx}, 'bank', this.value)">${optionsHtml}</select>
-                </div>
-                <div>
-                    <label style="font-size:11px;">জমা টাকা</label>
-                    <input type="number" step="any" min="0" value="${item.amount}" placeholder="০" oninput="updateBank(${idx}, 'amount', this.value)">
-                </div>
-                <button type="button" class="btn-remove" onclick="removeBank(${idx})" ${bankEntries.length === 1 ? 'disabled style="opacity:0.4"' : ''}>✕</button>
-            `;
-            container.appendChild(row);
-        });
-        recalc();
-    }
-
-    function addBankRow() {
-        bankEntries.push({ bank: BANK_OPTIONS[0], amount: '' });
-        renderBanks();
-    }
-
-    function removeBank(idx) {
-        if (bankEntries.length > 1) {
-            bankEntries.splice(idx, 1);
-            renderBanks();
-        }
-    }
-
-    function updateBank(idx, field, val) {
-        bankEntries[idx][field] = val;
-        recalc();
-    }
-
-    function recalc() {
-        let totalSales = 0;
-        activeIndices.forEach(i => {
-            const q = parseFloat(qtyValues[i]) || 0;
-            const amt = q * (parseFloat(products[i].price) || 0);
-            totalSales += amt;
-            const cell = document.getElementById(`amt-${i}`);
-            if (cell) cell.innerText = toBn(amt.toFixed(2));
-        });
-
-        let totalBank = 0;
-        bankEntries.forEach(b => {
-            totalBank += parseFloat(b.amount) || 0;
-        });
-
-        const onHand = totalSales - totalBank;
-        document.getElementById('totalSalesTxt').innerText = `${toBn(totalSales.toFixed(2))} ৳`;
-        document.getElementById('totalBankTxt').innerText = `${toBn(totalBank.toFixed(2))} ৳`;
-        document.getElementById('onHandTxt').innerText = `${toBn(onHand.toFixed(2))} ৳`;
-    }
-
-    document.getElementById('seName').addEventListener('input', e => {
-        localStorage.setItem('provath_se', e.target.value);
-    });
-
-    function switchView(viewId) {
-        ['entryView', 'previewView', 'adminAuthView', 'adminEditorView'].forEach(id => {
-            document.getElementById(id).classList.add('hidden');
-        });
-        document.getElementById(viewId).classList.remove('hidden');
-    }
-
-    function openPreview() {
-        const dateVal = document.getElementById('salesDate').value;
-        const dayVal = document.getElementById('salesDay').value;
-        const seVal = document.getElementById('seName').value || 'নাম দেওয়া হয়নি';
-
-        document.getElementById('prevDateInfo').innerText = `তারিখ: ${toBn(dateVal)} | বার: ${dayVal}`;
-        document.getElementById('prevSeInfo').innerText = `এসই-এর নাম: ${seVal}`;
-
-        const tbody = document.getElementById('prevProductBody');
-        tbody.innerHTML = '';
-        let totalSales = 0;
-
-        activeIndices.forEach(i => {
-            const q = parseFloat(qtyValues[i]) || 0;
-            const amt = q * (parseFloat(products[i].price) || 0);
-            totalSales += amt;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td><strong>${products[i].name}</strong></td><td><strong>${toBn(q)}</strong></td><td><strong>${toBn(amt.toFixed(2))}</strong></td>`;
-            tbody.appendChild(tr);
-        });
-
-        let totalBank = 0;
-        let bankLines = '';
-        bankEntries.forEach(b => {
-            const amt = parseFloat(b.amount) || 0;
-            if (amt > 0 || bankEntries.length === 1) {
-                totalBank += amt;
-                bankLines += `<div><strong>${b.bank}:</strong> ${toBn(amt.toFixed(2))} ৳</div>`;
-            }
-        });
-
-        const onHand = totalSales - totalBank;
-        document.getElementById('prevFooterInfo').innerHTML = `
-            <div><strong>মোট বিক্রয় মূল্য:</strong> ${toBn(totalSales.toFixed(2))} ৳</div>
-            ${bankLines}
-            <div><strong>সর্বমোট জমা:</strong> ${toBn(totalBank.toFixed(2))} ৳</div>
-            <div style="color:#0077FF;font-size:16px;font-weight:800;">হাতে নগদ টাকা: ${toBn(onHand.toFixed(2))} ৳</div>
-            <div style="font-size:11px;color:#64748B;margin-top:4px;">Powered by: ${poweredBy}</div>
-        `;
-        switchView('previewView');
-    }
-
-    function backToEntry() {
-        switchView('entryView');
-    }
-
-    // Ultra-Sharp 3x High-DPI (Retina HD) Canvas PNG ডাউনলোড - কখনোই ঘোলা হবে না
-    function downloadSummaryImage() {
-        const scale = 3; // 3x HD রেজোলিউশন (১৮০০ পিক্সেল চওড়া) যাতে জুম করলেও একদম ঝকঝকে থাকে
-        const logicalWidth = 620;
-        const rowH = 38;
-        const bankCount = bankEntries.length;
-        const logicalHeight = 225 + (activeIndices.length * rowH) + (bankCount * 30) + 145;
-
-        const canvas = document.createElement('canvas');
-        canvas.width = logicalWidth * scale;
-        canvas.height = logicalHeight * scale;
-
-        const ctx = canvas.getContext('2d');
-        ctx.scale(scale, scale);
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-
-        const fontMain = "'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', sans-serif";
-
-        // সাদা ব্যাকগ্রাউন্ড
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, logicalWidth, logicalHeight);
-
-        // হেডার গ্রেডিয়েন্ট
-        const grad = ctx.createLinearGradient(0, 0, logicalWidth, 0);
-        grad.addColorStop(0, '#0077FF');
-        grad.addColorStop(1, '#00C6FF');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, logicalWidth, 94);
-
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = `bold 29px ${fontMain}`;
-        ctx.textAlign = 'center';
-        ctx.fillText('প্রভাত এসই সামারি', logicalWidth / 2, 43);
-
-        ctx.font = `bold 17px ${fontMain}`;
-        const dateVal = toBn(document.getElementById('salesDate').value);
-        const dayVal = document.getElementById('salesDay').value;
-        ctx.fillText(`তারিখ: ${dateVal}  |  বার: ${dayVal}`, logicalWidth / 2, 76);
-
-        // SE Name ব্যানার
-        ctx.fillStyle = '#FACC15';
-        ctx.fillRect(0, 94, logicalWidth, 46);
-        ctx.fillStyle = '#0F172A';
-        ctx.font = `bold 21px ${fontMain}`;
-        const seVal = document.getElementById('seName').value || 'নাম দেওয়া হয়নি';
-        ctx.fillText(`এসই-এর নাম: ${seVal}`, logicalWidth / 2, 124);
-
-        // টেবিল হেডার
-        let y = 152;
-        ctx.fillStyle = '#0F172A';
-        ctx.fillRect(18, y, logicalWidth - 36, 38);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = `bold 17px ${fontMain}`;
-        ctx.textAlign = 'left';
-        ctx.fillText('পণ্যের নাম', 30, y + 25);
-        ctx.textAlign = 'center';
-        ctx.fillText('পরিমাণ', 355, y + 25);
-        ctx.textAlign = 'right';
-        ctx.fillText('টাকা (৳)', logicalWidth - 30, y + 25);
-
-        y += 38;
-        let totalSales = 0;
-        activeIndices.forEach((idx, rowIdx) => {
-            const q = parseFloat(qtyValues[idx]) || 0;
-            const amt = q * (parseFloat(products[idx].price) || 0);
-            totalSales += amt;
-
-            ctx.fillStyle = rowIdx % 2 === 0 ? '#FFFFFF' : '#F0F9FF';
-            ctx.fillRect(18, y, logicalWidth - 36, rowH);
-            ctx.strokeStyle = '#CBD5E1';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(18, y, logicalWidth - 36, rowH);
-
-            ctx.fillStyle = '#0F172A';
-            ctx.font = `bold 16px ${fontMain}`;
-            ctx.textAlign = 'left';
-            ctx.fillText(products[idx].name, 30, y + 25);
-            ctx.textAlign = 'center';
-            ctx.fillText(toBn(q), 355, y + 25);
-            ctx.textAlign = 'right';
-            ctx.fillText(toBn(amt.toFixed(2)), logicalWidth - 30, y + 25);
-            y += rowH;
-        });
-
-        // নিচের হিসাব
-        y += 22;
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#0F172A';
-        ctx.font = `bold 19px ${fontMain}`;
-        ctx.fillText(`মোট বিক্রয় মূল্য: ${toBn(totalSales.toFixed(2))} ৳`, 26, y);
-        y += 32;
-
-        let totalBank = 0;
-        ctx.font = `bold 17px ${fontMain}`;
-        bankEntries.forEach(b => {
-            const amt = parseFloat(b.amount) || 0;
-            totalBank += amt;
-            ctx.fillText(`${b.bank}: ${toBn(amt.toFixed(2))} ৳`, 26, y);
-            y += 28;
-        });
-
-        ctx.font = `bold 18px ${fontMain}`;
-        ctx.fillText(`সর্বমোট ব্যাংক জমা: ${toBn(totalBank.toFixed(2))} ৳`, 26, y + 4);
-        y += 36;
-
-        ctx.fillStyle = '#0077FF';
-        ctx.font = `bold 22px ${fontMain}`;
-        ctx.fillText(`হাতে নগদ টাকা: ${toBn((totalSales - totalBank).toFixed(2))} ৳`, 26, y);
-
-        ctx.fillStyle = '#475569';
-        ctx.font = `bold 14px ${fontMain}`;
-        ctx.textAlign = 'center';
-        ctx.fillText(`Powered by: ${poweredBy}`, logicalWidth / 2, logicalHeight - 16);
-
-        // Blob ব্যবহার করে সর্বোচ্চ মানের PNG ডাউনলোড
-        canvas.toBlob(function(blob) {
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = `প্রভাত-সামারি-HD-${document.getElementById('salesDate').value}.png`;
-            link.href = url;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            setTimeout(() => URL.revokeObjectURL(url), 5000);
-        }, 'image/png', 1.0);
-    }
-
-    function openAdminAuth() {
-        document.getElementById('adminPassInput').value = '';
-        switchView('adminAuthView');
-    }
-
-    function checkAdminPassAuto() {
-        const val = normalizePass(document.getElementById('adminPassInput').value);
-        if (val === normalizePass(adminPass)) {
-            openAdminEditor();
-        }
-    }
-
-    function verifyAdminPass() {
-        const val = normalizePass(document.getElementById('adminPassInput').value);
-        if (val === normalizePass(adminPass)) {
-            openAdminEditor();
-        } else {
-            alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
-        }
-    }
-
-    let tempAdminProducts = [];
-
-    function openAdminEditor() {
-        tempAdminProducts = products.map(p => ({ name: p.name, price: p.price }));
-        renderAdminRows();
-        document.getElementById('poweredByInput').value = poweredBy;
-        document.getElementById('newPassInput').value = '';
-        switchView('adminEditorView');
-    }
-
-    function renderAdminRows() {
-        const box = document.getElementById('adminProductsContainer');
-        box.innerHTML = '';
-        document.getElementById('adminCountBadge').innerText = `মোট পণ্য: ${toBn(tempAdminProducts.length)}`;
-
-        tempAdminProducts.forEach((p, i) => {
-            const row = document.createElement('div');
-            row.className = 'admin-row';
-            row.innerHTML = `
-                <input type="text" value="${p.name}" placeholder="পণ্যের নাম" oninput="tempAdminProducts[${i}].name = this.value">
-                <input type="number" step="any" value="${p.price}" placeholder="দাম (৳)" min="0" oninput="tempAdminProducts[${i}].price = this.value">
-                <button type="button" class="btn-remove" onclick="removeAdminProductRow(${i})" ${tempAdminProducts.length <= 1 ? 'disabled style="opacity:0.4"' : ''}>✕</button>
-            `;
-            box.appendChild(row);
-        });
-    }
-
-    function addAdminProductRow() {
-        tempAdminProducts.push({
-            name: `পণ্য ${toBn(tempAdminProducts.length + 1)}`,
-            price: 0
-        });
-        renderAdminRows();
-    }
-
-    function removeAdminProductRow(idx) {
-        if (tempAdminProducts.length > 1) {
-            tempAdminProducts.splice(idx, 1);
-            renderAdminRows();
-        }
-    }
-
-    function saveAdminData() {
-        products = tempAdminProducts.map((p, i) => ({
-            name: (p.name || '').trim() || `পণ্য ${toBn(i + 1)}`,
-            price: parseFloat(p.price) || 0
-        }));
-        localStorage.setItem('provath_plist_v2', JSON.stringify(products));
-
-        const pb = document.getElementById('poweredByInput').value.trim();
-        if (pb) {
-            poweredBy = pb;
-            localStorage.setItem('provath_powered', poweredBy);
-            document.getElementById('footerPoweredBy').innerText = `Powered by: ${poweredBy}`;
-        }
-
-        const np = normalizePass(document.getElementById('newPassInput').value);
-        if (np) {
-            adminPass = np;
-            localStorage.setItem('provath_pass', adminPass);
-        }
-
-        qtyValues = {};
-        setInitialSeven();
-        renderProducts();
-        backToEntry();
-        alert('সব তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!');
-    }
-
-    function copySrLink() {
-        const payload = btoa(encodeURIComponent(JSON.stringify({ p: products, w: poweredBy })));
-        const url = `${window.location.origin}${window.location.pathname}?cfg=${payload}`;
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert('এসআর লিংক কপি হয়েছে! এখন হোয়াটসঅ্যাপ বা মেসেঞ্জারে পেস্ট করুন।');
-            });
-        } else {
-            prompt('নিচের লিংকটি কপি করুন:', url);
-        }
-    }
-
-    initApp();
-</script>
-</body>
-</html>
